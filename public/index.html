@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Sudarshan Offline Multiplayer Suite - Chess, Uno, Chain Reaction & Mini Militia</title>
+  <meta name="description" content="Play multiplayer games with friends on your phones offline over local Wi-Fi or mobile hotspot. Includes Cyber Chess, Neon Uno, Chain Reaction HD, and Mini Militia 2D combat arena.">
+  <meta name="theme-color" content="#0b0f19">
+
+  <!-- Modern Google Fonts (with system fallbacks) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app-root">
+    <!-- Top Global Header -->
+    <header id="main-header" class="glass-header">
+      <div class="header-left">
+        <div class="app-logo">
+          <img src="images/logo.svg" alt="Sudarshan Arena Logo" class="app-logo-img">
+          <span class="logo-text">SUDARSHAN<span class="neon-accent">ARENA</span></span>
+        </div>
+        <div id="net-status-badge" class="status-badge online">
+          <span class="status-dot"></span>
+          <span class="status-text">LOCAL HOTSPOT</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="btn-player-profile" class="btn-profile-pill" title="Player Profile & Settings" onclick="window.lobby.openSettingsModal()">
+          <span id="header-user-avatar" class="profile-pill-avatar">🦊</span>
+          <span id="header-user-name" class="profile-pill-name">Player</span>
+          <span class="profile-pill-gear">⚙️</span>
+        </button>
+        <button id="btn-invite-qr" class="btn-icon" title="Invite Friends / QR Code" onclick="window.lobby.showQRModal()">
+          📱 <span>Connect Phones</span>
+        </button>
+        <button id="btn-hotspot-help" class="btn-icon" title="Offline Hotspot Guide" onclick="window.lobby.showHelpModal()">
+          ❓ <span>Guide</span>
+        </button>
+        <button id="btn-sound-toggle" class="btn-icon" title="Mute/Unmute Audio" onclick="toggleAudio()">
+          🔊
+        </button>
+        <button id="btn-fullscreen" class="btn-icon" title="Fullscreen Mode" onclick="toggleFullscreen()">
+          ⛶
+        </button>
+      </div>
+    </header>
+
+    <!-- Global Toast Notification -->
+    <div id="global-toast" class="toast hidden"></div>
+
+    <!-- MAIN APP VIEWS CONTAINER -->
+    <main id="app-content">
+
+      <!-- ================= VIEW 1: HOME SCREEN ================= -->
+      <section id="home-view" class="view-section">
+        <!-- Sleek Esports Hero Section -->
+        <div class="home-hero">
+          <div class="hero-badge">⚡ ZERO DATA REQUIRED • LOCAL HOTSPOT & OFFLINE</div>
+          <h1 class="hero-title">CHOOSE YOUR <span class="gradient-text">BATTLE ARENA</span></h1>
+        </div>
+
+        <!-- OFFLINE WI-FI / HOTSPOT MULTIPLAYER HUB CARD -->
+        <div class="hotspot-hub-card glass-panel">
+          <div class="hotspot-hub-main">
+            <div class="hotspot-hub-icon-col">
+              <span class="hotspot-hub-icon">📶</span>
+            </div>
+            <div class="hotspot-hub-info">
+              <div class="hotspot-hub-header">
+                <h3 class="hotspot-hub-title">OFFLINE WI-FI & PHONE HOTSPOT MULTIPLAYER</h3>
+                <span id="home-hotspot-badge" class="hotspot-status-pill online">
+                  <span class="status-dot"></span> LOCAL HOTSPOT ACTIVE
+                </span>
+              </div>
+              <p class="hotspot-hub-subtitle">
+                Play together on multiple phones & laptops with <b>zero mobile data / zero internet</b> required!
+              </p>
+              <div class="hotspot-hub-url-row">
+                <span class="hotspot-url-label">Phone Access URL:</span>
+                <code id="home-hotspot-url-text" class="hotspot-url-code" onclick="window.lobby.copyHotspotUrl()" title="Click to copy URL">http://192.168.1.102:3000</code>
+                <button class="btn btn-small btn-secondary" onclick="window.lobby.copyHotspotUrl()" title="Copy Phone URL">📋 Copy</button>
+              </div>
+            </div>
+          </div>
+          <div class="hotspot-hub-actions">
+            <button class="btn btn-primary" onclick="window.lobby.showQRModal()" title="Show QR Code for phones to scan">
+              📱 Connect Phones (QR)
+            </button>
+            <button class="btn btn-secondary" onclick="window.lobby.showHelpModal()" title="View Hotspot Setup Guide">
+              ❓ Hotspot Guide
+            </button>
+            <button class="btn btn-icon" onclick="window.lobby.openServerSettingsModal()" title="Change Host Server IP">
+              ⚙️ Setup Host
+            </button>
+          </div>
+        </div>
+
+        <!-- Join Room by Code Bar -->
+        <div class="join-room-bar glass-panel">
+          <div class="join-input-wrap">
+            <span class="join-icon">🔑</span>
+            <input type="text" id="join-room-code-input" maxlength="4" placeholder="ENTER 4-LETTER ROOM CODE" style="text-transform: uppercase;">
+          </div>
+          <button id="btn-join-room" class="btn btn-primary" onclick="window.lobby.joinRoomByCode()">JOIN ROOM</button>
+        </div>
+
+        <!-- Games Grid (4 Core Games with Artwork Covers) -->
+        <div class="games-grid">
+
+          <!-- Card 1: Cyber Chess -->
+          <div class="game-card glass-panel" data-game="chess">
+            <div class="game-card-media">
+              <img src="images/game_chess.svg" alt="Cyber Chess" class="game-card-cover" loading="eager">
+              <div class="game-card-overlay">
+                <span class="game-tag">1v1 • MINIMAX AI</span>
+              </div>
+            </div>
+            <div class="game-card-content">
+              <div class="game-title-row">
+                <h3>Cyber Chess</h3>
+                <span class="game-rating">★ 4.9</span>
+              </div>
+              <div class="game-card-badges">
+                <span class="mini-chip">⚔️ Tactical Grandmaster</span>
+                <span class="mini-chip">⏱️ Blitz Timers</span>
+              </div>
+              <div class="game-card-actions">
+                <button class="btn btn-primary game-card-btn" data-game="chess" data-mode="multi">Create Room</button>
+                <button class="btn btn-secondary game-card-btn" data-game="chess" data-mode="solo">Play vs AI</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Teen Patti Uno -->
+          <div class="game-card glass-panel" data-game="uno">
+            <div class="game-card-media">
+              <img src="images/game_uno.svg" alt="Teen Patti Uno" class="game-card-cover" loading="eager">
+              <div class="game-card-overlay">
+                <span class="game-tag">2-6 PLAYERS • VIP</span>
+              </div>
+            </div>
+            <div class="game-card-content">
+              <div class="game-title-row">
+                <h3>Teen Patti Uno</h3>
+                <span class="game-rating">★ 5.0</span>
+              </div>
+              <div class="game-card-badges">
+                <span class="mini-chip">🎰 Casino Felt Table</span>
+                <span class="mini-chip">💰 Chips & Pot</span>
+              </div>
+              <div class="game-card-actions">
+                <button class="btn btn-primary game-card-btn" data-game="uno" data-mode="multi">Create Table</button>
+                <button class="btn btn-secondary game-card-btn" data-game="uno" data-mode="solo">Play vs Bots</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Chain Reaction HD -->
+          <div class="game-card glass-panel" data-game="chain-reaction">
+            <div class="game-card-media">
+              <img src="images/game_chain_reaction.svg" alt="Chain Reaction HD" class="game-card-cover" loading="eager">
+              <div class="game-card-overlay">
+                <span class="game-tag">2-8 PLAYERS • STRATEGY</span>
+              </div>
+            </div>
+            <div class="game-card-content">
+              <div class="game-title-row">
+                <h3>Chain Reaction HD</h3>
+                <span class="game-rating">★ 4.9</span>
+              </div>
+              <div class="game-card-badges">
+                <span class="mini-chip">⚛️ Atomic Cascades</span>
+                <span class="mini-chip">🧠 Smart Bot AI</span>
+              </div>
+              <div class="game-card-actions">
+                <button class="btn btn-primary game-card-btn" data-game="chain-reaction" data-mode="multi">Create Room</button>
+                <button class="btn btn-secondary game-card-btn" data-game="chain-reaction" data-mode="solo">Solo vs Bots</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Mini Militia 2D -->
+          <div class="game-card glass-panel" data-game="mini-militia">
+            <div class="game-card-media">
+              <img src="images/game_mini_militia.svg" alt="Mini Militia 2D" class="game-card-cover" loading="eager">
+              <div class="game-card-overlay">
+                <span class="game-tag">1-8 REAL-TIME COMBAT</span>
+              </div>
+            </div>
+            <div class="game-card-content">
+              <div class="game-title-row">
+                <h3>Mini Militia 2D</h3>
+                <span class="game-rating">★ 5.0</span>
+              </div>
+              <div class="game-card-badges">
+                <span class="mini-chip">🚀 Jetpack Flight</span>
+                <span class="mini-chip">🎯 360° Laser Aim</span>
+              </div>
+              <div class="game-card-actions">
+                <button class="btn btn-primary game-card-btn" data-game="mini-militia" data-mode="multi">Create Room</button>
+                <button class="btn btn-secondary game-card-btn" data-game="mini-militia" data-mode="solo">Arena Practice</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Ludo King Royale -->
+          <div class="game-card glass-panel" data-game="ludo">
+            <div class="game-card-media">
+              <img src="images/game_ludo.svg" alt="Ludo King Royale" class="game-card-cover" loading="eager">
+              <div class="game-card-overlay">
+                <span class="game-tag">2-4 PLAYERS • 3D DICE</span>
+              </div>
+            </div>
+            <div class="game-card-content">
+              <div class="game-title-row">
+                <h3>👑 Ludo King Royale</h3>
+                <span class="game-rating">★ 5.0</span>
+              </div>
+              <div class="game-card-badges">
+                <span class="mini-chip">🎲 3D Realistic Dice</span>
+                <span class="mini-chip">👑 Classic Board & Pawns</span>
+              </div>
+              <div class="game-card-actions">
+                <button class="btn btn-primary game-card-btn" data-game="ludo" data-mode="multi">Create Room</button>
+                <button class="btn btn-secondary game-card-btn" data-game="ludo" data-mode="solo">Play vs Bots</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6: Slither Battle Royale -->
+          <div class="game-card glass-panel" data-game="slither">
+            <div class="game-card-media">
+              <img src="images/game_slither.svg" alt="Slither Battle Royale" class="game-card-cover" loading="eager">
+              <div class="game-card-overlay">
+                <span class="game-tag">2-8 REAL-TIME ARENA</span>
+              </div>
+            </div>
+            <div class="game-card-content">
+              <div class="game-title-row">
+                <h3>Slither Battle Royale</h3>
+                <span class="game-rating">★ 4.9</span>
+              </div>
+              <div class="game-card-badges">
+                <span class="mini-chip">🐍 Glow Energy Orbs</span>
+                <span class="mini-chip">⚡ Jet Speed Boost</span>
+              </div>
+              <div class="game-card-actions">
+                <button class="btn btn-primary game-card-btn" data-game="slither" data-mode="multi">Create Room</button>
+                <button class="btn btn-secondary game-card-btn" data-game="slither" data-mode="solo">Play vs Bots</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 7: Cyber Bomb Arena -->
+          <div class="game-card glass-panel" data-game="bomberman">
+            <div class="game-card-media">
+              <img src="images/game_bomberman.svg" alt="Cyber Bomb Arena" class="game-card-cover" loading="eager">
+              <div class="game-card-overlay">
+                <span class="game-tag">2-4 PLAYERS • BLAST</span>
+              </div>
+            </div>
+            <div class="game-card-content">
+              <div class="game-title-row">
+                <h3>Cyber Bomb Arena</h3>
+                <span class="game-rating">★ 4.9</span>
+              </div>
+              <div class="game-card-badges">
+                <span class="mini-chip">💣 Cross Lasers</span>
+                <span class="mini-chip">🛡️ Power-up Crates</span>
+              </div>
+              <div class="game-card-actions">
+                <button class="btn btn-primary game-card-btn" data-game="bomberman" data-mode="multi">Create Room</button>
+                <button class="btn btn-secondary game-card-btn" data-game="bomberman" data-mode="solo">Play vs Bots</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 8: Carrom King Royale -->
+          <div class="game-card glass-panel" data-game="carrom">
+            <div class="game-card-media">
+              <img src="images/game_carrom.svg" alt="Carrom King Royale" class="game-card-cover" loading="eager">
+              <div class="game-card-overlay">
+                <span class="game-tag">2 PLAYERS • 300 FPS</span>
+              </div>
+            </div>
+            <div class="game-card-content">
+              <div class="game-title-row">
+                <h3>👑 Carrom King</h3>
+                <span class="game-rating">★ 5.0</span>
+              </div>
+              <div class="game-card-badges">
+                <span class="mini-chip">🪵 Classic Wood Board</span>
+                <span class="mini-chip">⚡ 300 FPS Physics</span>
+              </div>
+              <div class="game-card-actions">
+                <button class="btn btn-primary game-card-btn" data-game="carrom" data-mode="multi">Create Room</button>
+                <button class="btn btn-secondary game-card-btn" data-game="carrom" data-mode="solo">Play vs Bots</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 9: Connect 4 Galaxy -->
+          <div class="game-card glass-panel" data-game="connect4">
+            <div class="game-card-media">
+              <img src="images/game_connect4.svg" alt="Connect 4 Galaxy" class="game-card-cover" loading="eager">
+              <div class="game-card-overlay">
+                <span class="game-tag">2 PLAYERS • STRATEGY</span>
+              </div>
+            </div>
+            <div class="game-card-content">
+              <div class="game-title-row">
+                <h3>Connect 4 Galaxy</h3>
+                <span class="game-rating">★ 4.9</span>
+              </div>
+              <div class="game-card-badges">
+                <span class="mini-chip">🌌 Hologram Grid</span>
+                <span class="mini-chip">⚡ 4-in-a-Row Beam</span>
+              </div>
+              <div class="game-card-actions">
+                <button class="btn btn-primary game-card-btn" data-game="connect4" data-mode="multi">Create Room</button>
+                <button class="btn btn-secondary game-card-btn" data-game="connect4" data-mode="solo">Play vs Bots</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ================= VIEW 2: LOBBY SCREEN ================= -->
+      <section id="lobby-view" class="view-section hidden">
+        <div class="lobby-container glass-panel">
+          <!-- Lobby Top Bar -->
+          <div class="lobby-header">
+            <button class="btn btn-secondary" onclick="window.network.leaveRoom()">← Leave</button>
+            <div class="room-code-display" onclick="window.lobby.copyRoomCode()" title="Click to copy Room Code">
+              <span class="label">ROOM CODE:</span>
+              <span id="lobby-room-code" class="code">----</span>
+              <span class="qr-hint">📋 Click to Copy</span>
+            </div>
+            <div class="lobby-invite-actions">
+              <button class="btn btn-primary" onclick="window.lobby.showQRModal()" title="Show Room QR Code for phones to scan & auto-join">
+                📱 Invite Phones (QR)
+              </button>
+              <button class="btn btn-secondary" onclick="window.lobby.copyRoomLink()" title="Copy direct room link">
+                🔗 Copy Link
+              </button>
+            </div>
+          </div>
+
+          <div class="lobby-meta">
+            <h2 id="lobby-game-title">Cyber Chess</h2>
+            <span id="lobby-player-count" class="badge">1 / 4 Players</span>
+          </div>
+
+          <!-- Host Game Select & Bot Controls -->
+          <div id="lobby-host-controls" class="host-controls-bar">
+            <div class="select-group">
+              <label for="lobby-game-select">Change Game:</label>
+              <select id="lobby-game-select">
+                <option value="chess">Cyber Chess (2 Max)</option>
+                <option value="uno">Neon Uno (6 Max)</option>
+                <option value="chain-reaction">Chain Reaction (8 Max)</option>
+                <option value="mini-militia">Mini Militia 2D (8 Max)</option>
+                <option value="ludo">Neon Ludo Royale (4 Max)</option>
+                <option value="slither">Slither Battle Royale (8 Max)</option>
+                <option value="bomberman">Cyber Bomb Arena (4 Max)</option>
+                <option value="carrom">Neon Carrom Clash (4 Max)</option>
+                <option value="connect4">Connect 4 Galaxy (2 Max)</option>
+              </select>
+            </div>
+            <div class="bot-btn-group">
+              <button class="btn btn-small" onclick="window.network.addBot()">+ Add Bot 🤖</button>
+              <button class="btn btn-small btn-danger" onclick="window.network.removeBot()">- Remove Bot</button>
+            </div>
+          </div>
+
+          <!-- Players Grid in Lobby -->
+          <div id="lobby-players-list" class="lobby-players-grid">
+            <!-- Dynamic player cards -->
+          </div>
+
+          <!-- Lobby Action Buttons -->
+          <div class="lobby-footer">
+            <button id="lobby-ready-btn" class="btn btn-secondary" onclick="window.network.toggleReady()">Toggle Ready</button>
+            <button id="lobby-start-btn" class="btn btn-primary btn-large" onclick="window.network.startGame()">START GAME 🚀</button>
+          </div>
+
+          <!-- Lobby Live Chat / Taunts -->
+          <div class="lobby-chat-panel">
+            <div class="chat-header">Lobby Chat & Quick Taunts</div>
+            <div id="lobby-chat-messages" class="chat-messages-container"></div>
+            <div class="chat-input-bar">
+              <input type="text" id="lobby-chat-input" placeholder="Type message or GG..." maxlength="60">
+              <button id="lobby-chat-send" class="btn btn-primary">Send</button>
+            </div>
+            <div class="quick-emojis">
+              <span onclick="window.network.sendChat('🔥 Let\'s Go!')">🔥</span>
+              <span onclick="window.network.sendChat('GG!')">🏆</span>
+              <span onclick="window.network.sendChat('Watch out!')">⚠️</span>
+              <span onclick="window.network.sendChat('Ready!')">✅</span>
+              <span onclick="window.network.sendChat('Good luck!')">🍀</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= VIEW 3: ACTIVE GAME SCREEN ================= -->
+      <section id="game-view" class="view-section hidden">
+        <!-- Game Top Nav -->
+        <div class="game-top-nav glass-panel">
+          <button class="btn btn-small btn-secondary" onclick="returnToLobbyAction()">← Exit Match</button>
+          <div id="game-active-title" class="game-nav-title">GAME MATCH</div>
+          <button class="btn btn-small btn-icon" onclick="window.lobby.showQRModal()">📱 Invite</button>
+        </div>
+
+        <!-- 1. CHESS CONTAINER (Professional App Layout) -->
+        <div id="chess-container" class="game-wrapper hidden">
+          <!-- Top Opponent Bar -->
+          <div class="pro-chess-player-bar top-player glass-panel">
+            <div class="player-profile-pill">
+              <div class="pro-avatar" id="chess-top-avatar">🤖</div>
+              <div class="pro-info">
+                <span class="pro-name" id="chess-top-name">Opponent</span>
+                <span class="pro-rating">1500</span>
+              </div>
+            </div>
+            <div class="captured-advantage-group">
+              <div id="chess-captured-top" class="pro-captured-tray"></div>
+              <span id="chess-advantage-top" class="pro-advantage-badge hidden">+0</span>
+            </div>
+            <div id="chess-timer-top" class="pro-timer-pill">5:00</div>
+          </div>
+
+          <!-- Board Wrapper with Coordinates -->
+          <div class="chess-board-wrapper">
+            <div id="chess-board-grid" class="chess-grid"></div>
+            <div id="chess-result-banner" class="game-result-modal hidden"></div>
+          </div>
+
+          <!-- Bottom Player Bar -->
+          <div class="pro-chess-player-bar bottom-player glass-panel">
+            <div class="player-profile-pill">
+              <div class="pro-avatar" id="chess-bottom-avatar">🦊</div>
+              <div class="pro-info">
+                <span class="pro-name" id="chess-bottom-name">You</span>
+                <span class="pro-rating">1500</span>
+              </div>
+            </div>
+            <div class="captured-advantage-group">
+              <div id="chess-captured-bottom" class="pro-captured-tray"></div>
+              <span id="chess-advantage-bottom" class="pro-advantage-badge hidden">+0</span>
+            </div>
+            <div id="chess-timer-bottom" class="pro-timer-pill active-clock">5:00</div>
+          </div>
+
+          <!-- Status & Action Toolbar -->
+          <div class="pro-chess-actions glass-panel">
+            <div id="chess-turn-indicator" class="turn-badge turn-white">WHITE TO MOVE</div>
+            <div class="chess-action-btns">
+              <button class="btn btn-small btn-secondary" onclick="window.chessGame.toggleFlip()" title="Flip Board">⟲ Flip</button>
+              <button class="btn btn-small btn-secondary" onclick="window.chessGame.offerDraw()" title="Offer Draw">½-½ Draw</button>
+              <button class="btn btn-small btn-danger" onclick="window.chessGame.resign()" title="Resign">🏳️ Resign</button>
+            </div>
+          </div>
+
+          <!-- Move History Log -->
+          <div class="chess-move-log-card glass-panel">
+            <div class="move-log-header">
+              <span>Move History</span>
+              <span id="chess-move-count" class="move-count-badge">0 moves</span>
+            </div>
+            <div id="chess-moves-list" class="moves-scroll"></div>
+          </div>
+        </div>
+
+        <!-- 2. UNO CONTAINER (Royal Teen Patti Casino Club Table) -->
+        <div id="uno-container" class="game-wrapper hidden">
+          <div id="uno-toast" class="uno-toast-msg hidden"></div>
+
+          <!-- Royal Teen Patti Oval Table Arena -->
+          <div class="tp-table-wrapper">
+            <div class="tp-poker-table">
+              <!-- Golden Table Track with Rotating Play Direction Arrows -->
+              <div class="tp-table-rail"></div>
+              <div class="tp-felt-surface">
+                <!-- Watermark / Table Logo -->
+                <div class="tp-table-logo">NEON UNO CLUB</div>
+
+                <!-- Clockwise / Counter-Clockwise Direction Glow Arrows -->
+                <div id="tp-direction-indicator" class="tp-direction-indicator clockwise">
+                  <div class="tp-arrow arrow-top">➜</div>
+                  <div class="tp-arrow arrow-right">➜</div>
+                  <div class="tp-arrow arrow-bottom">➜</div>
+                  <div class="tp-arrow arrow-left">➜</div>
+                </div>
+
+                <!-- Circular Seats Around Table (Teen Patti Layout) -->
+                <div id="tp-seats-grid" class="tp-seats-grid">
+                  <!-- Dynamically populated 6-8 player seats around oval -->
+                </div>
+
+                <!-- Table Center Pot & Card Arena -->
+                <div class="tp-center-pot">
+                  <!-- Draw Shoe (Deck of Cards) -->
+                  <div id="uno-draw-deck" class="tp-deck-shoe" onclick="window.unoGame.drawCard()" title="Draw Card">
+                    <div class="deck-shadow-card card-3"></div>
+                    <div class="deck-shadow-card card-2"></div>
+                    <div class="deck-top-card">
+                      <span class="deck-brand">UNO</span>
+                      <span class="deck-action-hint">DRAW</span>
+                    </div>
+                  </div>
+
+                  <!-- Discard Pile (With natural card throw angle) -->
+                  <div class="tp-discard-area">
+                    <div id="uno-top-card" class="uno-card card-discarded"></div>
+                  </div>
+
+                  <!-- Active Color Royal Gem / Chip -->
+                  <div id="uno-color-chip" class="tp-color-chip chip-red">
+                    <span class="chip-inner-ring"></span>
+                    <span id="uno-color-label" class="chip-text">RED</span>
+                  </div>
+                </div>
+
+                <!-- Table Center Game Status Banner -->
+                <div id="tp-table-status" class="tp-table-status">
+                  <span id="uno-turn-badge" class="turn-badge turn-cyan">WAITING FOR TURN</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Area: Player 3D Hand Fan & Casino Action Panel -->
+            <div class="tp-player-bottom-bar">
+              <div class="tp-casino-actions">
+                <button id="uno-draw-btn" class="btn btn-secondary tp-action-btn" onclick="window.unoGame.drawCard()">
+                  <span>📥</span> DRAW
+                </button>
+                <button id="uno-call-btn" class="btn tp-uno-shout-btn" onclick="window.unoGame.callUno()">
+                  <span class="siren">🚨</span> UNO!
+                </button>
+                <!-- Quick Casino Chat / Emoji Taunts -->
+                <div class="tp-taunts-tray">
+                  <button class="tp-taunt-chip" onclick="window.unoGame.sendTaunt('💰')">💰</button>
+                  <button class="tp-taunt-chip" onclick="window.unoGame.sendTaunt('🔥')">🔥</button>
+                  <button class="tp-taunt-chip" onclick="window.unoGame.sendTaunt('😎')">😎</button>
+                  <button class="tp-taunt-chip" onclick="window.unoGame.sendTaunt('😱')">😱</button>
+                  <button class="tp-taunt-chip" onclick="window.unoGame.sendTaunt('👏')">👏</button>
+                </div>
+              </div>
+
+              <!-- 3D Curved Hand Fan -->
+              <div id="uno-player-hand" class="tp-hand-fan"></div>
+            </div>
+          </div>
+
+          <!-- Uno Wild Color Picker Modal (Casino Royal Selector) -->
+          <div id="uno-color-modal" class="modal-overlay hidden">
+            <div class="modal-content glass-panel text-center tp-modal-casino">
+              <div class="modal-header">
+                <h3>👑 SELECT COLOR</h3>
+              </div>
+              <p class="modal-intro">Pick the active color for the table:</p>
+              <div class="color-picker-grid">
+                <button class="color-pick-btn color-red" onclick="window.unoGame.chooseColor('red')">RED</button>
+                <button class="color-pick-btn color-blue" onclick="window.unoGame.chooseColor('blue')">BLUE</button>
+                <button class="color-pick-btn color-green" onclick="window.unoGame.chooseColor('green')">GREEN</button>
+                <button class="color-pick-btn color-yellow" onclick="window.unoGame.chooseColor('yellow')">YELLOW</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="uno-result-banner" class="game-result-modal hidden"></div>
+        </div>
+
+        <!-- 3. CHAIN REACTION CONTAINER -->
+        <div id="cr-container" class="game-wrapper hidden">
+          <div id="cr-toast" class="cr-toast-msg hidden"></div>
+
+          <div class="cr-header-hud glass-panel">
+            <div id="cr-turn-indicator" class="cr-turn-badge">PLAYER'S TURN</div>
+            <div id="cr-players-list" class="cr-players-badges"></div>
+            <div class="cr-header-actions">
+              <button class="btn btn-small btn-secondary" onclick="window.chainReactionGame.undo()">⮌ Undo</button>
+            </div>
+          </div>
+
+          <div class="cr-board-wrapper">
+            <div id="cr-board" class="cr-board-shell">
+              <div id="cr-grid-container" class="cr-grid"></div>
+            </div>
+            <div id="cr-result-banner" class="game-result-modal hidden"></div>
+          </div>
+        </div>
+
+        <!-- 4. MINI MILITIA 2D COMBAT ARENA (PUBG Tactical Horizontal Fullscreen) -->
+        <div id="mm-container" class="game-wrapper hidden mm-fullscreen-shell">
+          <!-- Rotate to Landscape Overlay for mobile/tablets -->
+          <div id="mm-rotate-overlay" class="mm-rotate-guard hidden">
+            <div class="rotate-card glass-panel">
+              <div class="rotate-icon-anim">📱 ➔ 📲</div>
+              <h3>ROTATE TO LANDSCAPE</h3>
+              <p>Mini Militia is an ultra-smooth horizontal full-screen combat arena. Tilt your phone sideways for the ultimate battle experience!</p>
+              <div class="rotate-btns">
+                <button class="btn btn-primary" onclick="window.miniMilitiaGame.requestLandscapeFullscreen()">⛶ Lock Landscape</button>
+                <button class="btn btn-secondary" onclick="window.miniMilitiaGame.dismissRotateWarning()">Play Vertical Anyway</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Damage Hit Vignette (Flashes red toward incoming fire) -->
+          <div id="mm-damage-vignette" class="mm-damage-vignette"></div>
+
+          <!-- Sniper ADS / Scope Lens Overlay -->
+          <div id="mm-scope-overlay" class="mm-scope-overlay hidden">
+            <div class="scope-circle">
+              <div class="scope-cross-h"></div>
+              <div class="scope-cross-v"></div>
+              <div class="scope-range-marks"></div>
+            </div>
+          </div>
+
+          <!-- The Combat Canvas (Razor-Sharp High-DPI 120Hz Arena) -->
+          <canvas id="mini-militia-canvas"></canvas>
+
+          <!-- ================= REAL MINI MILITIA TOP COMBAT HUD ================= -->
+          <div class="mm-real-top-bar">
+            <!-- Left: Soldier Avatar + Health & Nitro Flight Gauges -->
+            <div class="mm-top-soldier">
+              <span id="mm-hud-avatar" class="soldier-av">🪖</span>
+              <div class="mm-vitals-column">
+                <!-- Health Bar (Orange/Red) -->
+                <div class="mm-vital-bar-shell hp-bar">
+                  <div id="mm-hud-hp-lag" class="mm-vital-lag" style="width: 100%;"></div>
+                  <div id="mm-hud-hp-fill" class="mm-vital-fill hp-fill" style="width: 100%;"></div>
+                  <span id="mm-hud-hp-txt" class="mm-vital-txt">100 HP</span>
+                </div>
+                <!-- Nitro Flight Bar (Electric Cyan) -->
+                <div class="mm-vital-bar-shell nitro-bar">
+                  <div id="mm-hud-nitro-fill" class="mm-vital-fill nitro-fill" style="width: 100%;"></div>
+                  <span id="mm-hud-nitro-txt" class="mm-vital-txt">FLY 100%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Center: Active Weapon (Tap to Reload) & Grenade -->
+            <div class="mm-top-arsenal">
+              <div class="mm-top-weapon-card" id="mm-primary-slot" onclick="window.miniMilitiaGame.reloadWeapon()" title="Tap to Reload (R)">
+                <span class="weapon-icon">🔫</span>
+                <div class="weapon-info-col">
+                  <span id="mm-hud-weapon-name" class="w-name">M416 RIFLE</span>
+                  <div class="weapon-ammo-row">
+                    <span id="mm-hud-ammo-cur" class="ammo-cur">30</span>
+                    <span class="ammo-slash">/</span>
+                    <span id="mm-hud-ammo-max" class="ammo-max">30</span>
+                  </div>
+                </div>
+                <button id="touch-btn-reload" class="hidden"></button>
+                <div id="mm-reload-track" class="reload-track hidden"><div id="mm-reload-bar" class="reload-progress"></div></div>
+              </div>
+
+              <!-- Quick Grenade Button -->
+              <button id="touch-btn-grenade" class="mm-top-grenade-btn" title="Throw Grenade (G)">
+                💣 <span id="mm-hud-grenade-count" class="btn-badge">3</span>
+              </button>
+            </div>
+
+            <!-- Right: Stats & Navigation -->
+            <div class="mm-top-right-group">
+              <div class="mm-score-pill">
+                <span>💀 <b id="mm-hud-kills-top" class="kills-gold">0</b></span>
+                <span>👤 <b id="mm-hud-alive">4</b></span>
+              </div>
+              <button id="mm-audio-btn" class="mm-btn-icon" onclick="window.miniMilitiaGame.toggleAudio()" title="Toggle Sound">🔊</button>
+              <button class="mm-btn-icon" onclick="window.miniMilitiaGame.toggleSettingsModal()" title="Combat Settings">⚙️</button>
+              <button class="mm-btn-icon mm-exit-btn" onclick="window.miniMilitiaGame.exitMatch()" title="Exit Match">⮌</button>
+            </div>
+          </div>
+
+          <!-- Compass & Kill Feed -->
+          <div class="mm-compass-wrap">
+            <div class="compass-needle-marker">▼</div>
+            <div id="mm-compass-strip" class="compass-strip">
+              <div id="mm-compass-inner" class="compass-inner"></div>
+              <div id="mm-compass-markers" class="compass-markers-layer"></div>
+            </div>
+          </div>
+
+          <div id="mm-kill-feed" class="mm-kill-feed-container"></div>
+
+          <!-- Elimination Popup Banner -->
+          <div id="mm-elim-banner" class="mm-elim-banner hidden">
+            <span class="elim-skull">💀</span>
+            <span id="mm-elim-text" class="elim-text">YOU ELIMINATED PLAYER</span>
+          </div>
+
+          <!-- Victory Banner -->
+          <div id="mm-victory-banner" class="mm-victory-banner hidden">
+            <div class="victory-card glass-panel">
+              <div class="victory-trophy">🍗 🏆 👑</div>
+              <h2 class="victory-title">WINNER WINNER CHICKEN DINNER!</h2>
+              <p id="mm-victory-sub" class="victory-subtitle">CHAMPION OF THE ARENA</p>
+              <div class="victory-stats" id="mm-victory-stats"></div>
+              <button class="btn btn-primary btn-large" onclick="window.miniMilitiaGame.exitMatch()">BACK TO LOBBY</button>
+            </div>
+          </div>
+
+          <!-- Respawn Countdown Banner -->
+          <div id="mm-respawn-overlay" class="mm-respawn-msg hidden">Respawning in 3s...</div>
+
+          <!-- ================= REAL MINI MILITIA UNOBSTRUCTED DUAL-STICK CONTROLS ================= -->
+          <div class="mm-mobile-controls real-mm-controls">
+            <!-- Left Zone: Pure Floating Virtual Joystick (Move / Jetpack Fly) -->
+            <div class="mm-left-touch-zone">
+              <div id="touch-stick-left" class="virtual-joystick joystick-move">
+                <div class="stick-knob knob-move"><span class="knob-glow"></span></div>
+              </div>
+            </div>
+
+            <!-- Right Zone: 360° Aim & Shoot Stick + Quick Punch -->
+            <div class="mm-right-touch-zone">
+              <button id="touch-btn-melee" class="mm-quick-punch-btn" title="Melee Punch (E)">🥊</button>
+              <div id="touch-stick-right" class="virtual-joystick joystick-aim">
+                <div class="stick-knob knob-aim"><span class="aim-cross-dot"></span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Combat Settings Dialog Modal -->
+          <div id="mm-settings-modal" class="modal-overlay hidden">
+            <div class="modal-content glass-panel">
+              <div class="modal-header">
+                <h3>⚙️ COMBAT CONTROLS & SMOOTHNESS</h3>
+                <button class="btn-close" onclick="window.miniMilitiaGame.toggleSettingsModal()">×</button>
+              </div>
+              <div class="modal-body" style="display: flex; flex-direction: column; gap: 14px;">
+                <label style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                  <span>Right Stick Auto-Fire:</span>
+                  <input type="checkbox" id="setting-autofire" checked style="width: 20px; height: 20px; accent-color: var(--cyan);">
+                </label>
+                <label style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                  <span>PUBG Dynamic Camera Zoom:</span>
+                  <input type="checkbox" id="setting-dynamic-zoom" checked style="width: 20px; height: 20px; accent-color: var(--cyan);">
+                </label>
+                <label style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                  <span>Gun Recoil Camera Shake:</span>
+                  <input type="checkbox" id="setting-screen-shake" checked style="width: 20px; height: 20px; accent-color: var(--cyan);">
+                </label>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <span>Touch Aim Sensitivity:</span>
+                    <span id="setting-sens-val">0.7x (Medium)</span>
+                  </div>
+                  <input type="range" id="setting-sensitivity" min="0.3" max="1.5" step="0.1" value="0.7" style="accent-color: var(--cyan);">
+                </div>
+                <button class="btn btn-primary" onclick="window.miniMilitiaGame.toggleSettingsModal()" style="margin-top: 10px;">APPLY & RESUME</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= GAME CONTAINER 5: LUDO KING ROYALE ================= -->
+        <div id="ludo-container" class="game-container hidden ludo-king-theme">
+          <!-- Top Royal Bar -->
+          <div class="ludo-header glass-panel">
+            <div class="ludo-header-left">
+              <button class="btn btn-secondary btn-small ludo-nav-btn" onclick="returnToLobbyAction()">
+                <span class="btn-icon">←</span> Exit
+              </button>
+            </div>
+            <div class="ludo-header-title">
+              <div class="ludo-brand-badge">
+                <span class="ludo-crown-icon">👑</span>
+                <span class="ludo-logo-text">LUDO <span class="text-gold">KING</span></span>
+              </div>
+              <span id="ludo-room-mode-tag" class="ludo-mode-chip">CLASSIC 4P</span>
+            </div>
+            <div class="ludo-header-actions">
+              <button id="ludo-sound-btn" class="ludo-icon-btn" title="Toggle Sound">🔊</button>
+              <button id="ludo-chat-btn" class="ludo-icon-btn" title="Quick Chat">💬</button>
+              <button id="ludo-rules-btn" class="ludo-icon-btn" title="Game Rules">❓</button>
+            </div>
+          </div>
+
+          <!-- Live Game Status Banner -->
+          <div class="ludo-status-banner-wrap">
+            <div id="ludo-status-banner" class="ludo-status-banner red-turn">
+              <span id="ludo-turn-name">Red's Turn</span>
+              <span id="ludo-turn-subtext" class="ludo-status-sub">Tap dice to roll!</span>
+            </div>
+          </div>
+
+          <!-- Ludo King Mobile Main Arena -->
+          <div class="ludo-arena-wrapper">
+            <!-- Top Players Row: Red (Top-Left) & Green (Top-Right) -->
+            <div class="ludo-corner-row ludo-top-row">
+              <!-- Player 0: Red (Top Left) -->
+              <div id="ludo-player-0" class="ludo-player-card p-red active-turn">
+                <div class="ludo-avatar-wrap">
+                  <div class="ludo-avatar-ring">
+                    <span class="ludo-avatar-emoji" id="ludo-avatar-0">🔴</span>
+                  </div>
+                  <div class="ludo-timer-circle" id="ludo-timer-0"></div>
+                </div>
+                <div class="ludo-player-info">
+                  <div class="ludo-player-name" id="ludo-name-0">Player 1</div>
+                  <div class="ludo-home-dots" id="ludo-dots-0">
+                    <span class="p-dot"></span><span class="p-dot"></span><span class="p-dot"></span><span class="p-dot"></span>
+                  </div>
+                </div>
+                <!-- 3D Dice Box for Red -->
+                <div class="ludo-player-dice-wrap" id="ludo-dice-box-0" data-player="0">
+                  <div class="ludo-3d-dice" id="ludo-dice-face-0">
+                    <div class="dice-pip-grid pip-6">
+                      <span></span><span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                  </div>
+                  <div class="ludo-dice-hint">ROLL!</div>
+                </div>
+                <!-- Floating Chat Bubble -->
+                <div class="ludo-speech-bubble hidden" id="ludo-bubble-0"></div>
+              </div>
+
+              <!-- Center spacer -->
+              <div class="ludo-center-spacer"></div>
+
+              <!-- Player 1: Green (Top Right) -->
+              <div id="ludo-player-1" class="ludo-player-card p-green">
+                <!-- 3D Dice Box for Green -->
+                <div class="ludo-player-dice-wrap" id="ludo-dice-box-1" data-player="1">
+                  <div class="ludo-3d-dice" id="ludo-dice-face-1">
+                    <div class="dice-pip-grid pip-6">
+                      <span></span><span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                  </div>
+                  <div class="ludo-dice-hint">ROLL!</div>
+                </div>
+                <div class="ludo-player-info text-right">
+                  <div class="ludo-player-name" id="ludo-name-1">CyberLudo</div>
+                  <div class="ludo-home-dots" id="ludo-dots-1">
+                    <span class="p-dot"></span><span class="p-dot"></span><span class="p-dot"></span><span class="p-dot"></span>
+                  </div>
+                </div>
+                <div class="ludo-avatar-wrap">
+                  <div class="ludo-avatar-ring">
+                    <span class="ludo-avatar-emoji" id="ludo-avatar-1">🟢</span>
+                  </div>
+                  <div class="ludo-timer-circle" id="ludo-timer-1"></div>
+                </div>
+                <!-- Floating Chat Bubble -->
+                <div class="ludo-speech-bubble hidden" id="ludo-bubble-1"></div>
+              </div>
+            </div>
+
+            <!-- Central Ludo Board Canvas Wrapper -->
+            <div class="ludo-board-wrapper">
+              <div class="ludo-board-frame">
+                <canvas id="ludo-canvas"></canvas>
+              </div>
+            </div>
+
+            <!-- Bottom Players Row: Blue (Bottom-Left) & Yellow (Bottom-Right) -->
+            <div class="ludo-corner-row ludo-bottom-row">
+              <!-- Player 3: Blue (Bottom Left) -->
+              <div id="ludo-player-3" class="ludo-player-card p-blue">
+                <div class="ludo-avatar-wrap">
+                  <div class="ludo-avatar-ring">
+                    <span class="ludo-avatar-emoji" id="ludo-avatar-3">🔵</span>
+                  </div>
+                  <div class="ludo-timer-circle" id="ludo-timer-3"></div>
+                </div>
+                <div class="ludo-player-info">
+                  <div class="ludo-player-name" id="ludo-name-3">Omega</div>
+                  <div class="ludo-home-dots" id="ludo-dots-3">
+                    <span class="p-dot"></span><span class="p-dot"></span><span class="p-dot"></span><span class="p-dot"></span>
+                  </div>
+                </div>
+                <!-- 3D Dice Box for Blue -->
+                <div class="ludo-player-dice-wrap" id="ludo-dice-box-3" data-player="3">
+                  <div class="ludo-3d-dice" id="ludo-dice-face-3">
+                    <div class="dice-pip-grid pip-6">
+                      <span></span><span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                  </div>
+                  <div class="ludo-dice-hint">ROLL!</div>
+                </div>
+                <!-- Floating Chat Bubble -->
+                <div class="ludo-speech-bubble hidden" id="ludo-bubble-3"></div>
+              </div>
+
+              <!-- Center Mobile Roll Button -->
+              <div class="ludo-center-spacer">
+                <button id="ludo-roll-btn" class="btn btn-primary ludo-main-roll-btn">
+                  <span class="dice-icon">🎲</span> ROLL
+                </button>
+                <span id="ludo-dice-face" style="display:none;">⚅</span>
+              </div>
+
+              <!-- Player 2: Yellow (Bottom Right) -->
+              <div id="ludo-player-2" class="ludo-player-card p-yellow">
+                <!-- 3D Dice Box for Yellow -->
+                <div class="ludo-player-dice-wrap" id="ludo-dice-box-2" data-player="2">
+                  <div class="ludo-3d-dice" id="ludo-dice-face-2">
+                    <div class="dice-pip-grid pip-6">
+                      <span></span><span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                  </div>
+                  <div class="ludo-dice-hint">ROLL!</div>
+                </div>
+                <div class="ludo-player-info text-right">
+                  <div class="ludo-player-name" id="ludo-name-2">PulseBot</div>
+                  <div class="ludo-home-dots" id="ludo-dots-2">
+                    <span class="p-dot"></span><span class="p-dot"></span><span class="p-dot"></span><span class="p-dot"></span>
+                  </div>
+                </div>
+                <div class="ludo-avatar-wrap">
+                  <div class="ludo-avatar-ring">
+                    <span class="ludo-avatar-emoji" id="ludo-avatar-2">🟡</span>
+                  </div>
+                  <div class="ludo-timer-circle" id="ludo-timer-2"></div>
+                </div>
+                <!-- Floating Chat Bubble -->
+                <div class="ludo-speech-bubble hidden" id="ludo-bubble-2"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Chat & Emoji Modal -->
+          <div id="ludo-chat-modal" class="ludo-popup-overlay hidden">
+            <div class="ludo-chat-drawer glass-panel">
+              <div class="ludo-drawer-header">
+                <h4>💬 Quick Reactions</h4>
+                <button class="ludo-close-btn" id="ludo-chat-close">✕</button>
+              </div>
+              <div class="ludo-emoji-grid">
+                <button class="ludo-emoji-btn" data-emoji="😂">😂</button>
+                <button class="ludo-emoji-btn" data-emoji="😎">😎</button>
+                <button class="ludo-emoji-btn" data-emoji="😡">😡</button>
+                <button class="ludo-emoji-btn" data-emoji="😭">😭</button>
+                <button class="ludo-emoji-btn" data-emoji="👏">👏</button>
+                <button class="ludo-emoji-btn" data-emoji="🎲">🎲</button>
+                <button class="ludo-emoji-btn" data-emoji="👑">👑</button>
+                <button class="ludo-emoji-btn" data-emoji="😱">😱</button>
+                <button class="ludo-emoji-btn" data-emoji="🥳">🥳</button>
+                <button class="ludo-emoji-btn" data-emoji="🙏">🙏</button>
+              </div>
+              <div class="ludo-phrases-list">
+                <button class="ludo-phrase-btn" data-text="Roll fast please! ⏰">Roll fast please! ⏰</button>
+                <button class="ludo-phrase-btn" data-text="Well played! 👏">Well played! 👏</button>
+                <button class="ludo-phrase-btn" data-text="Oops! 😅">Oops! 😅</button>
+                <button class="ludo-phrase-btn" data-text="Don't kill me! 🙏">Don't kill me! 🙏</button>
+                <button class="ludo-phrase-btn" data-text="Good luck! 🍀">Good luck! 🍀</button>
+                <button class="ludo-phrase-btn" data-text="Watch this move! 😎">Watch this move! 😎</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Game Rules Modal -->
+          <div id="ludo-rules-modal" class="ludo-popup-overlay hidden">
+            <div class="ludo-rules-dialog glass-panel">
+              <div class="ludo-drawer-header">
+                <h3>👑 Ludo King Rules</h3>
+                <button class="ludo-close-btn" id="ludo-rules-close">✕</button>
+              </div>
+              <div class="ludo-rules-body">
+                <div class="rule-item">
+                  <span class="rule-icon">🎲</span>
+                  <div><strong>Roll 6 to Exit Yard:</strong> A pawn only leaves its home base when a 6 is rolled.</div>
+                </div>
+                <div class="rule-item">
+                  <span class="rule-icon">⭐</span>
+                  <div><strong>Safe Star Zones:</strong> Golden star squares protect pawns from being captured.</div>
+                </div>
+                <div class="rule-item">
+                  <span class="rule-icon">💥</span>
+                  <div><strong>Knockout Opponents:</strong> Landing on an opponent captures them back to yard and awards a <strong>Bonus Roll</strong>!</div>
+                </div>
+                <div class="rule-item">
+                  <span class="rule-icon">🔄</span>
+                  <div><strong>Bonus on 6:</strong> Rolling 6 gives an extra roll (max 2 bonus rolls; 3 sixes forfeits turn).</div>
+                </div>
+                <div class="rule-item">
+                  <span class="rule-icon">🏆</span>
+                  <div><strong>Claim the Crown:</strong> Move all 4 pawns safely into the center Home triangle to win!</div>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-block" id="ludo-rules-gotit">Got it! Let's Play</button>
+            </div>
+          </div>
+
+          <!-- Ludo King Royal Victory Modal -->
+          <div id="ludo-victory-modal" class="modal-overlay hidden">
+            <div class="ludo-victory-card glass-panel text-center">
+              <div class="victory-crown-burst">👑</div>
+              <div class="victory-trophy-3d">🏆</div>
+              <h2 id="ludo-victory-text" class="victory-headline">RED WINS LUDO KING! 🏆</h2>
+              <p class="victory-sub">Royal Champion of the Board!</p>
+              
+              <!-- Standings Table -->
+              <div class="ludo-rankings-table" id="ludo-rankings-table"></div>
+
+              <div class="victory-btn-group">
+                <button class="btn btn-primary ludo-victory-action" id="ludo-play-again-btn">Play Again 🔄</button>
+                <button class="btn btn-secondary ludo-victory-action" onclick="returnToLobbyAction()">Back to Lobby 🏠</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= GAME CONTAINER 6: SLITHER BATTLE ROYALE ================= -->
+        <div id="slither-container" class="game-container hidden">
+          <div class="slither-hud-top">
+            <button class="btn btn-secondary btn-small" onclick="returnToLobbyAction()">← Exit Arena</button>
+            <div class="slither-score-badge">Length: <span id="slither-score-val">100</span></div>
+            <div id="slither-leaderboard" class="slither-leaderboard glass-panel"></div>
+          </div>
+          <canvas id="slither-canvas"></canvas>
+          <div class="slither-mobile-controls">
+            <button id="slither-boost-btn" class="btn-slither-boost">⚡ BOOST</button>
+          </div>
+        </div>
+
+        <!-- ================= GAME CONTAINER 7: CYBER BOMB ARENA ================= -->
+        <div id="bomberman-container" class="game-container hidden">
+          <div class="game-top-bar glass-panel">
+            <button class="btn btn-secondary btn-small" onclick="returnToLobbyAction()">← Exit Arena</button>
+            <div class="game-turn-badge">💣 CYBER BOMB ARENA</div>
+            <button id="bomb-drop-btn" class="btn btn-primary btn-small">Drop Bomb 💣</button>
+          </div>
+          <div class="bomberman-board-wrapper">
+            <canvas id="bomberman-canvas"></canvas>
+          </div>
+          <!-- Mobile Touch On-Screen Controls for Phones -->
+          <div class="bomberman-mobile-controls" id="bomberman-mobile-controls">
+            <div class="virtual-dpad">
+              <button class="dpad-btn dpad-up" id="btn-bomb-up" aria-label="Move Up">▲</button>
+              <div class="dpad-mid-row">
+                <button class="dpad-btn dpad-left" id="btn-bomb-left" aria-label="Move Left">◄</button>
+                <div class="dpad-center"></div>
+                <button class="dpad-btn dpad-right" id="btn-bomb-right" aria-label="Move Right">►</button>
+              </div>
+              <button class="dpad-btn dpad-down" id="btn-bomb-down" aria-label="Move Down">▼</button>
+            </div>
+            <button class="btn-bomb-action" id="btn-bomb-action-mobile" aria-label="Drop Bomb">
+              <span class="bomb-icon">💣</span>
+              <span class="bomb-lbl">DROP</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= GAME CONTAINER 8: CARROM KING (300 FPS ROYALE) ================= -->
+        <div id="carrom-container" class="game-container carrom-king-theme hidden">
+          <!-- Carrom King Top Nav -->
+          <div class="carrom-top-nav glass-panel">
+            <button class="btn btn-secondary btn-small" onclick="returnToLobbyAction()">← Lobby</button>
+            <div class="carrom-nav-center">
+              <span class="carrom-nav-logo">👑 CARROM KING</span>
+              <span class="carrom-fps-chip">⚡ 300 FPS</span>
+            </div>
+            <div class="carrom-nav-actions">
+              <button id="carrom-audio-toggle" class="btn btn-icon btn-small" onclick="window.neonCarromGame.toggleAudio()" title="Sound">🔊</button>
+              <button class="btn btn-icon btn-small" onclick="window.neonCarromGame.resetGame()" title="Restart">🔄</button>
+            </div>
+          </div>
+
+          <!-- Carrom King Play Area Layout -->
+          <div class="carrom-king-layout">
+            <!-- Opponent Profile Strip (Top Player) -->
+            <div class="carrom-player-capsule top-capsule" id="carrom-p2-capsule">
+              <div class="carrom-p-avatar-wrap">
+                <span class="carrom-p-avatar" id="carrom-p2-avatar">🤖</span>
+                <span class="carrom-p-turn-ring" id="carrom-p2-ring"></span>
+              </div>
+              <div class="carrom-p-meta">
+                <span class="carrom-p-name" id="carrom-p2-name">CarromMaster (BOT)</span>
+                <span class="carrom-p-status" id="carrom-p2-status">Waiting</span>
+              </div>
+              <div class="carrom-p-score-badge">
+                <span class="score-num" id="carrom-p2-score">0</span>
+                <span class="score-lbl">PTS</span>
+              </div>
+            </div>
+
+            <!-- Authentic Wooden Board Canvas Frame -->
+            <div class="carrom-board-outer-frame">
+              <div class="carrom-corner-screw tl"></div>
+              <div class="carrom-corner-screw tr"></div>
+              <div class="carrom-corner-screw bl"></div>
+              <div class="carrom-corner-screw br"></div>
+              <div class="carrom-board-wrapper">
+                <canvas id="carrom-canvas"></canvas>
+              </div>
+            </div>
+
+            <!-- Carrom King Striker Positioning Baseline Slider -->
+            <div class="carrom-slider-container" id="carrom-slider-box">
+              <span class="slider-arrow">◄</span>
+              <div class="slider-track-wrap">
+                <input type="range" id="carrom-striker-slider" min="130" max="470" value="300" step="1" aria-label="Striker Position">
+                <div class="slider-baseline-guide">
+                  <span class="guide-circle left"></span>
+                  <span class="guide-line"></span>
+                  <span class="guide-circle right"></span>
+                </div>
+              </div>
+              <span class="slider-arrow">►</span>
+            </div>
+
+            <!-- User Profile Strip (Bottom Player) -->
+            <div class="carrom-player-capsule bottom-capsule active-turn" id="carrom-p1-capsule">
+              <div class="carrom-p-avatar-wrap">
+                <span class="carrom-p-avatar" id="carrom-p1-avatar">🎯</span>
+                <span class="carrom-p-turn-ring active" id="carrom-p1-ring"></span>
+              </div>
+              <div class="carrom-p-meta">
+                <span class="carrom-p-name" id="carrom-p1-name">Player 1 (YOU)</span>
+                <span class="carrom-p-status" id="carrom-p1-status">Your Turn - Drag & Flick!</span>
+              </div>
+              <div class="carrom-p-score-badge">
+                <span class="score-num" id="carrom-p1-score">0</span>
+                <span class="score-lbl">PTS</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Carrom King Royal Victory Dialog -->
+          <div id="carrom-victory-modal" class="modal-overlay hidden">
+            <div class="carrom-victory-card glass-panel text-center">
+              <div class="victory-crown-burst">👑</div>
+              <div class="victory-trophy-3d">🏆</div>
+              <h2 id="carrom-victory-title" class="victory-headline">CARROM KING CHAMPION!</h2>
+              <p id="carrom-victory-sub" class="victory-sub">Master of the Board!</p>
+              
+              <div class="carrom-final-scores" id="carrom-final-scores">
+                <div class="final-score-box p1">
+                  <span id="carrom-final-p1-name">Player 1</span>
+                  <b id="carrom-final-p1-pts">0</b>
+                </div>
+                <div class="final-score-vs">VS</div>
+                <div class="final-score-box p2">
+                  <span id="carrom-final-p2-name">CarromMaster</span>
+                  <b id="carrom-final-p2-pts">0</b>
+                </div>
+              </div>
+
+              <div class="victory-btn-group">
+                <button class="btn btn-primary ludo-victory-action" onclick="window.neonCarromGame.resetGame()">Play Again 🔄</button>
+                <button class="btn btn-secondary ludo-victory-action" onclick="returnToLobbyAction()">Back to Lobby 🏠</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= GAME CONTAINER 9: CONNECT 4 GALAXY ================= -->
+        <div id="connect4-container" class="game-container hidden">
+          <div class="game-top-bar glass-panel">
+            <button class="btn btn-secondary btn-small" onclick="returnToLobbyAction()">← Exit Connect 4</button>
+            <div id="connect4-turn-indicator" class="game-turn-badge">Cyan's Drop</div>
+          </div>
+          <div class="connect4-board-wrapper">
+            <canvas id="connect4-canvas"></canvas>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- ================= MODAL: CONNECT PHONES / QR CODE ================= -->
+    <div id="qr-modal" class="modal-overlay hidden">
+      <div class="modal-content glass-panel">
+        <div class="modal-header">
+          <h3 id="qr-modal-title">CONNECT YOUR PHONES (OFFLINE)</h3>
+          <button class="btn-close" onclick="window.lobby.closeQRModal()">×</button>
+        </div>
+        <div class="modal-body text-center">
+          <p class="modal-intro">Any player can join directly in their phone browser without installing any app!</p>
+          
+          <div class="qr-code-frame">
+            <img id="network-qr-img" src="" alt="Scan QR Code to Join">
+          </div>
+
+          <div class="qr-url-box">
+            <span class="url-label">Direct Phone URL:</span>
+            <div id="network-url-text" class="url-text" onclick="window.lobby.copyHotspotUrl()" title="Click to copy">http://localhost:3000</div>
+            <button class="btn btn-small btn-secondary" onclick="window.lobby.copyHotspotUrl()" style="margin-top:6px;">📋 Copy Link</button>
+          </div>
+
+          <div class="network-ips-container">
+            <h4>Available Network Addresses:</h4>
+            <ul id="network-ips-list"></ul>
+          </div>
+
+          <div class="qr-instructions">
+            <div class="step-item"><b>1.</b> Connect your phone to this laptop's Wi-Fi or phone mobile hotspot.</div>
+            <div class="step-item"><b>2.</b> Scan this QR Code with your camera or type the URL into your phone's browser.</div>
+            <div class="step-item"><b>3.</b> Enter your name, join room and start playing!</div>
+          </div>
+        </div>
+        <div class="modal-footer" style="display:flex; justify-content:space-between; align-items:center;">
+          <button class="btn btn-secondary btn-small" onclick="window.lobby.openServerSettingsModal()">⚙️ Change IP</button>
+          <button class="btn btn-primary" onclick="window.lobby.closeQRModal()">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: CONNECTION ERROR & HOTSPOT SETUP ================= -->
+    <div id="connection-error-modal" class="modal-overlay hidden">
+      <div class="modal-content glass-panel" style="max-width: 500px;">
+        <div class="modal-header">
+          <h3 style="color: #ff0055;">⚠️ CANNOT REACH GAME SERVER</h3>
+          <button class="btn-close" onclick="window.lobby.closeConnectionErrorModal()">×</button>
+        </div>
+        <div class="modal-body">
+          <p id="conn-error-message" style="color: #fca5a5; font-size: 0.95rem; margin-bottom: 16px;">
+            Could not connect to the local game server.
+          </p>
+
+          <div class="guide-card" style="margin-bottom: 16px;">
+            <h4>💡 How to Fix & Play Multiplayer:</h4>
+            <ol>
+              <li><b>Start Server on Laptop:</b> In this folder, run <code>npm start</code> in terminal.</li>
+              <li><b>Same Wi-Fi / Hotspot:</b> Ensure all phones and laptop are on the same Wi-Fi or phone hotspot (Mobile Data can be OFF!).</li>
+              <li><b>Host IP:</b> If playing on a phone, make sure the host IP matches the laptop below.</li>
+            </ol>
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 0.82rem; font-weight: 700; color: var(--cyan); display: block; margin-bottom: 6px;">
+              HOST SERVER ADDRESS (IP:PORT):
+            </label>
+            <input type="text" id="conn-error-ip-input" placeholder="192.168.1.102:3000" style="width: 100%; padding: 10px 14px; background: rgba(0,0,0,0.5); border: 1.5px solid var(--cyan); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-heading); font-size: 1.05rem;">
+          </div>
+        </div>
+        <div class="modal-footer" style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
+          <button class="btn btn-secondary" onclick="window.lobby.playSoloFromError()">🤖 Practice Solo vs AI</button>
+          <button class="btn btn-primary" onclick="window.lobby.retryConnection()">🔄 Retry Connection</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: CONFIGURE SERVER IP ================= -->
+    <div id="server-settings-modal" class="modal-overlay hidden">
+      <div class="modal-content glass-panel" style="max-width: 480px;">
+        <div class="modal-header">
+          <h3>⚙️ CONFIGURE HOST SERVER IP</h3>
+          <button class="btn-close" onclick="window.lobby.closeServerSettingsModal()">×</button>
+        </div>
+        <div class="modal-body">
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 14px;">
+            If you are playing on a phone browser or app, enter the local IP address of the laptop running the game server.
+          </p>
+          <div style="margin-bottom: 16px;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: var(--cyan); display: block; margin-bottom: 6px;">
+              SERVER ADDRESS (IP:PORT):
+            </label>
+            <input type="text" id="server-settings-ip-input" placeholder="192.168.1.102:3000" style="width: 100%; padding: 10px 14px; background: rgba(0,0,0,0.5); border: 1.5px solid var(--cyan); border-radius: var(--radius-sm); color: #fff; font-family: var(--font-heading); font-size: 1.05rem;">
+          </div>
+          <div class="guide-card">
+            <h4>Common Addresses:</h4>
+            <ul>
+              <li>Laptop on Wi-Fi: <code>192.168.1.102:3000</code></li>
+              <li>Phone Hotspot: <code>192.168.43.x:3000</code></li>
+              <li>Same Machine: <code>localhost:3000</code></li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="window.lobby.closeServerSettingsModal()">Cancel</button>
+          <button class="btn btn-primary" onclick="window.lobby.saveServerSettings()">Save & Connect 💾</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: OFFLINE HOTSPOT GUIDE ================= -->
+    <div id="offline-help-modal" class="modal-overlay hidden">
+      <div class="modal-content glass-panel">
+        <div class="modal-header">
+          <h3>HOW TO PLAY 100% OFFLINE</h3>
+          <button class="btn-close" onclick="window.lobby.closeHelpModal()">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="guide-card">
+            <h4>Method A: Mobile Hotspot (No Mobile Data Needed)</h4>
+            <ol>
+              <li>Turn on <b>Portable Wi-Fi Hotspot</b> on any one phone (mobile data can be turned OFF!).</li>
+              <li>Connect your laptop and all friends' phones to that Wi-Fi hotspot.</li>
+              <li>Open this game on your laptop. Click <b>"Connect Phones"</b> and have friends scan the QR Code!</li>
+            </ol>
+          </div>
+          <div class="guide-card">
+            <h4>Method B: Home Wi-Fi Router (No Internet Needed)</h4>
+            <ol>
+              <li>Connect your laptop and phones to the same Wi-Fi router.</li>
+              <li>Even if the internet connection is down, local multiplayer will work flawlessly at ultra-fast speeds!</li>
+            </ol>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" onclick="window.lobby.closeHelpModal()">Got It!</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: FIRST-TIME WELCOME & PROFILE ONBOARDING ================= -->
+    <div id="onboarding-modal" class="modal-overlay hidden">
+      <div class="onboarding-card glass-panel text-center">
+        <div class="onboarding-crown">👑</div>
+        <h2 class="onboarding-title">WELCOME TO <span class="gradient-text">SUDARSHAN ARENA</span></h2>
+        <p class="onboarding-subtitle">Choose your battle Avatar and Gamer Tag to begin playing offline!</p>
+
+        <!-- Avatar Selection Grid -->
+        <div class="onboarding-avatar-box">
+          <div class="field-label-row">
+            <span class="field-title">CHOOSE YOUR AVATAR</span>
+            <span class="field-sub">Tap to select</span>
+          </div>
+          <div class="avatar-grid-select" id="onboarding-avatar-grid">
+            <span class="avatar-cell selected" data-avatar="🦊">🦊</span>
+            <span class="avatar-cell" data-avatar="🐯">🐯</span>
+            <span class="avatar-cell" data-avatar="🦁">🦁</span>
+            <span class="avatar-cell" data-avatar="🐺">🐺</span>
+            <span class="avatar-cell" data-avatar="🐉">🐉</span>
+            <span class="avatar-cell" data-avatar="🤖">🤖</span>
+            <span class="avatar-cell" data-avatar="👾">👾</span>
+            <span class="avatar-cell" data-avatar="🪖">🪖</span>
+            <span class="avatar-cell" data-avatar="🎯">🎯</span>
+            <span class="avatar-cell" data-avatar="👑">👑</span>
+            <span class="avatar-cell" data-avatar="⚡">⚡</span>
+            <span class="avatar-cell" data-avatar="🚀">🚀</span>
+            <span class="avatar-cell" data-avatar="💀">💀</span>
+            <span class="avatar-cell" data-avatar="🐼">🐼</span>
+            <span class="avatar-cell" data-avatar="🦅">🦅</span>
+            <span class="avatar-cell" data-avatar="🔥">🔥</span>
+          </div>
+        </div>
+
+        <!-- Gamer Tag Input -->
+        <div class="onboarding-tag-box">
+          <label class="field-title" for="onboarding-tag-input">YOUR GAMER TAG / NICKNAME</label>
+          <div class="gamer-tag-input-wrap">
+            <span class="tag-hash">#</span>
+            <input type="text" id="onboarding-tag-input" maxlength="15" placeholder="Enter your Gamer Tag...">
+          </div>
+          <span class="input-char-hint">Max 15 characters • Visible to friends in rooms</span>
+        </div>
+
+        <!-- Start Playing Button -->
+        <button id="btn-onboarding-submit" class="btn btn-primary btn-large btn-block" onclick="window.lobby.submitOnboarding()">
+          START PLAYING ⚔️
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: PLAYER SETTINGS & PROFILE EDIT ================= -->
+    <div id="settings-modal" class="modal-overlay hidden">
+      <div class="settings-card glass-panel">
+        <div class="modal-header">
+          <h3>⚙️ SETTINGS & PROFILE</h3>
+          <button class="btn-close" onclick="window.lobby.closeSettingsModal()">×</button>
+        </div>
+        <div class="modal-body">
+          <!-- Live Profile Preview Card -->
+          <div class="settings-preview-banner">
+            <div class="preview-avatar-circle" id="settings-preview-avatar">🦊</div>
+            <div class="preview-meta">
+              <span class="preview-name" id="settings-preview-name">Player</span>
+              <span class="preview-badge">⚡ Offline Combatant</span>
+            </div>
+          </div>
+
+          <!-- Edit Gamer Tag -->
+          <div class="settings-field-group">
+            <label class="field-title" for="settings-tag-input">CHANGE GAMER TAG</label>
+            <div class="gamer-tag-input-wrap">
+              <span class="tag-hash">#</span>
+              <input type="text" id="settings-tag-input" maxlength="15" placeholder="Enter new Tag...">
+            </div>
+          </div>
+
+          <!-- Change Avatar -->
+          <div class="settings-field-group">
+            <div class="field-label-row">
+              <span class="field-title">CHANGE AVATAR</span>
+              <span class="field-sub">Tap any icon</span>
+            </div>
+            <div class="avatar-grid-select" id="settings-avatar-grid">
+              <span class="avatar-cell" data-avatar="🦊">🦊</span>
+              <span class="avatar-cell" data-avatar="🐯">🐯</span>
+              <span class="avatar-cell" data-avatar="🦁">🦁</span>
+              <span class="avatar-cell" data-avatar="🐺">🐺</span>
+              <span class="avatar-cell" data-avatar="🐉">🐉</span>
+              <span class="avatar-cell" data-avatar="🤖">🤖</span>
+              <span class="avatar-cell" data-avatar="👾">👾</span>
+              <span class="avatar-cell" data-avatar="🪖">🪖</span>
+              <span class="avatar-cell" data-avatar="🎯">🎯</span>
+              <span class="avatar-cell" data-avatar="👑">👑</span>
+              <span class="avatar-cell" data-avatar="⚡">⚡</span>
+              <span class="avatar-cell" data-avatar="🚀">🚀</span>
+              <span class="avatar-cell" data-avatar="💀">💀</span>
+              <span class="avatar-cell" data-avatar="🐼">🐼</span>
+              <span class="avatar-cell" data-avatar="🦅">🦅</span>
+              <span class="avatar-cell" data-avatar="🔥">🔥</span>
+            </div>
+          </div>
+
+          <!-- Preferences -->
+          <div class="settings-field-group">
+            <label class="field-title">SOUND & AUDIO</label>
+            <div class="settings-pref-row">
+              <span class="pref-label">🔊 Master Sound & Game FX</span>
+              <button id="settings-sound-btn" class="btn btn-secondary btn-small" onclick="toggleAudio(); window.lobby.syncSettingsAudioState();">ON</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" onclick="window.lobby.saveSettings()">Save Changes 💾</button>
+          <button class="btn btn-secondary" onclick="window.lobby.closeSettingsModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+  <!-- Audio, Network, Lobby & Games Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/network.js"></script>
+  <script src="js/games/chess.js"></script>
+  <script src="js/games/uno.js"></script>
+  <script src="js/games/chain-reaction.js"></script>
+  <script src="js/games/mini-militia.js"></script>
+  <script src="js/games/ludo.js"></script>
+  <script src="js/games/slither.js"></script>
+  <script src="js/games/bomberman.js"></script>
+  <script src="js/games/carrom.js"></script>
+  <script src="js/games/connect4.js"></script>
+  <script src="js/lobby.js"></script>
+
+  <script>
+    function toggleAudio() {
+      const isMuted = window.soundFx.toggleMute();
+      const btn = document.getElementById('btn-sound-toggle');
+      if (btn) btn.innerText = isMuted ? '🔇' : '🔊';
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    function returnToLobbyAction() {
+      if (window.network && window.network.roomId) {
+        if (window.network.isHost) {
+          window.network.returnToLobby();
+        } else {
+          window.network.leaveRoom();
+          window.lobby.stopCurrentGame();
+          window.lobby.showView('home');
+        }
+      } else {
+        window.lobby.stopCurrentGame();
+        window.lobby.showView('home');
+      }
+    }
+  </script>
+</body>
+</html>

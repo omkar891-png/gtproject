@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="c4Bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050714"/>
+      <stop offset="50%" stop-color="#0b1029"/>
+      <stop offset="100%" stop-color="#040610"/>
+    </linearGradient>
+    <linearGradient id="gridBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="discCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe"/>
+      <stop offset="100%" stop-color="#0077ff"/>
+    </linearGradient>
+    <linearGradient id="discYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd600"/>
+      <stop offset="100%" stop-color="#ff0055"/>
+    </linearGradient>
+    <filter id="c4Glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#c4Bg)"/>
+
+  <!-- Starfield background dots -->
+  <g fill="#ffffff" opacity="0.4">
+    <circle cx="90" cy="120" r="1.5"/>
+    <circle cx="150" cy="380" r="1"/>
+    <circle cx="720" cy="80" r="2"/>
+    <circle cx="680" cy="360" r="1.5"/>
+    <circle cx="450" cy="40" r="1"/>
+  </g>
+
+  <!-- Connect 4 Vertical Matrix Board (7 columns x 6 rows) -->
+  <g transform="translate(230, 65) scale(0.95)">
+    <!-- Stand / Legs -->
+    <rect x="-20" y="290" width="30" height="30" rx="6" fill="#1e293b"/>
+    <rect x="370" y="290" width="30" height="30" rx="6" fill="#1e293b"/>
+    <path d="M -40 320 L 420 320" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
+
+    <!-- Blue Holographic Vertical Grid Frame -->
+    <rect x="0" y="0" width="380" height="300" rx="18" fill="url(#gridBlue)" stroke="#00f2fe" stroke-width="3" filter="url(#c4Glow)"/>
+
+    <!-- Discs in Grid Holes (Simulated Game State) -->
+    <!-- Col 0 -->
+    <circle cx="35" cy="265" r="19" fill="url(#discCyan)" filter="url(#c4Glow)"/>
+    <circle cx="35" cy="217" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="35" cy="169" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="35" cy="121" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="35" cy="73" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="35" cy="25" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+
+    <!-- Col 1 -->
+    <circle cx="85" cy="265" r="19" fill="url(#discYellow)" filter="url(#c4Glow)"/>
+    <circle cx="85" cy="217" r="19" fill="url(#discCyan)" filter="url(#c4Glow)"/>
+    <circle cx="85" cy="169" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="85" cy="121" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="85" cy="73" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="85" cy="25" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+
+    <!-- Col 2 -->
+    <circle cx="135" cy="265" r="19" fill="url(#discYellow)" filter="url(#c4Glow)"/>
+    <circle cx="135" cy="217" r="19" fill="url(#discYellow)" filter="url(#c4Glow)"/>
+    <circle cx="135" cy="169" r="19" fill="url(#discCyan)" filter="url(#c4Glow)"/>
+    <circle cx="135" cy="121" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="135" cy="73" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="135" cy="25" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+
+    <!-- Col 3 (Diagonal 4-in-a-row winning connection!) -->
+    <circle cx="185" cy="265" r="19" fill="url(#discCyan)" filter="url(#c4Glow)"/>
+    <circle cx="185" cy="217" r="19" fill="url(#discYellow)" filter="url(#c4Glow)"/>
+    <circle cx="185" cy="169" r="19" fill="url(#discYellow)" filter="url(#c4Glow)"/>
+    <circle cx="185" cy="121" r="19" fill="url(#discCyan)" filter="url(#c4Glow)"/>
+    <circle cx="185" cy="73" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="185" cy="25" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+
+    <!-- Col 4 -->
+    <circle cx="235" cy="265" r="19" fill="url(#discYellow)" filter="url(#c4Glow)"/>
+    <circle cx="235" cy="217" r="19" fill="url(#discCyan)" filter="url(#c4Glow)"/>
+    <circle cx="235" cy="169" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="235" cy="121" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="235" cy="73" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="235" cy="25" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+
+    <!-- Col 5 -->
+    <circle cx="285" cy="265" r="19" fill="url(#discCyan)" filter="url(#c4Glow)"/>
+    <circle cx="285" cy="217" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="285" cy="169" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="285" cy="121" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="285" cy="73" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="285" cy="25" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+
+    <!-- Col 6 -->
+    <circle cx="335" cy="265" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="335" cy="217" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="335" cy="169" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="335" cy="121" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="335" cy="73" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+    <circle cx="335" cy="25" r="19" fill="#060914" stroke="#1e293b" stroke-width="2"/>
+
+    <!-- Laser 4-in-a-row victory beam -->
+    <line x1="35" y1="265" x2="185" y2="121" stroke="#00f2fe" stroke-width="4" filter="url(#c4Glow)"/>
+    <line x1="35" y1="265" x2="185" y2="121" stroke="#ffffff" stroke-width="2"/>
+
+    <!-- Falling Disc dropping into top of column 3 -->
+    <circle cx="185" cy="-28" r="19" fill="url(#discCyan)" filter="url(#c4Glow)"/>
+    <line x1="185" y1="-24" x2="185" y2="10" stroke="#00f2fe" stroke-width="2" stroke-dasharray="4 2"/>
+  </g>
+
+  <!-- Title Badge -->
+  <g transform="translate(40, 50)">
+    <rect width="200" height="34" rx="17" fill="#00f2fe" fill-opacity="0.15" stroke="#00f2fe" stroke-width="1.5"/>
+    <text x="100" y="22" font-family="'Outfit', sans-serif" font-weight="700" font-size="13" fill="#00f2fe" text-anchor="middle" letter-spacing="2">2 PLAYERS • STRATEGY</text>
+    <text x="0" y="75" font-family="'Rajdhani', sans-serif" font-weight="700" font-size="34" fill="#ffffff">CONNECT 4 <tspan fill="#00f2fe">GALAXY</tspan></text>
+  </g>
+</svg>

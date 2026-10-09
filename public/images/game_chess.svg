@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <radialGradient id="chessBg" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#0a1329"/>
+      <stop offset="60%" stop-color="#040814"/>
+      <stop offset="100%" stop-color="#010307"/>
+    </radialGradient>
+    <linearGradient id="neonCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0ffff"/>
+      <stop offset="50%" stop-color="#00f2fe"/>
+      <stop offset="100%" stop-color="#0077b6"/>
+    </linearGradient>
+    <linearGradient id="neonGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff5b8"/>
+      <stop offset="50%" stop-color="#ffd700"/>
+      <stop offset="100%" stop-color="#d48800"/>
+    </linearGradient>
+    <linearGradient id="neonPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3d5ff"/>
+      <stop offset="50%" stop-color="#b026ff"/>
+      <stop offset="100%" stop-color="#6a0dad"/>
+    </linearGradient>
+    <filter id="chessGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#chessBg)"/>
+
+  <!-- Isometric Cyber Chessboard Grid -->
+  <g transform="translate(400, 260) scale(1, 0.52) rotate(45)" opacity="0.85">
+    <!-- Board Base Shadow -->
+    <rect x="-190" y="-190" width="380" height="380" fill="#030712" stroke="#00f2fe" stroke-width="4" filter="url(#chessGlow)"/>
+
+    <!-- Alternating Grid Squares -->
+    <g>
+      <!-- Row 0 -->
+      <rect x="-180" y="-180" width="45" height="45" fill="#0d1b33"/>
+      <rect x="-135" y="-180" width="45" height="45" fill="#1b2a4a"/>
+      <rect x="-90" y="-180" width="45" height="45" fill="#0d1b33"/>
+      <rect x="-45" y="-180" width="45" height="45" fill="#1b2a4a"/>
+      <rect x="0" y="-180" width="45" height="45" fill="#0d1b33"/>
+      <rect x="45" y="-180" width="45" height="45" fill="#1b2a4a"/>
+      <rect x="90" y="-180" width="45" height="45" fill="#0d1b33"/>
+      <rect x="135" y="-180" width="45" height="45" fill="#1b2a4a"/>
+      <!-- Row 1 -->
+      <rect x="-180" y="-135" width="45" height="45" fill="#1b2a4a"/>
+      <rect x="-135" y="-135" width="45" height="45" fill="#0d1b33"/>
+      <rect x="-90" y="-135" width="45" height="45" fill="#1b2a4a"/>
+      <rect x="-45" y="-135" width="45" height="45" fill="#0d1b33"/>
+      <rect x="0" y="-135" width="45" height="45" fill="#1b2a4a"/>
+      <rect x="45" y="-135" width="45" height="45" fill="#0d1b33"/>
+      <rect x="90" y="-135" width="45" height="45" fill="#1b2a4a"/>
+      <rect x="135" y="-135" width="45" height="45" fill="#0d1b33"/>
+      <!-- Row 2 -->
+      <rect x="-180" y="-90" width="45" height="45" fill="#0d1b33"/>
+      <rect x="-135" y="-90" width="45" height="45" fill="#1b2a4a"/>
+      <rect x="-90" y="-90" width="45" height="45" fill="#0d1b33"/>
+      <rect x="-45" y="-90" width="45" height="45" fill="#00f2fe" fill-opacity="0.35"/>
+      <rect x="0" y="-90" width="45" height="45" fill="#0d1b33"/>
+      <rect x="45" y="-90" width="45" height="45" fill="#1b2a4a"/>
+      <rect x="90" y="-90" width="45" height="45" fill="#0d1b33"/>
+      <rect x="135" y="-90" width="45" height="45" fill="#1b2a4a"/>
+      <!-- Row 3 -->
+      <rect x="-180" y="-45" width="45" height="45" fill="#1b2a4a"/>
+      <rect x="-135" y="-45" width="45" height="45" fill="#0d1b33"/>
+      <rect x="-90" y="-45" width="45" height="45" fill="#1b2a4a"/>
+      <rect x="-45" y="-45" width="45" height="45" fill="#0d1b33"/>
+      <rect x="0" y="-45" width="45" height="45" fill="#ffd700" fill-opacity="0.35"/>
+      <rect x="45" y="-45" width="45" height="45" fill="#0d1b33"/>
+      <rect x="90" y="-45" width="45" height="45" fill="#1b2a4a"/>
+      <rect x="135" y="-45" width="45" height="45" fill="#0d1b33"/>
+      <!-- Remaining rows 4-7 -->
+      <rect x="-180" y="0" width="360" height="180" fill="#081020" fill-opacity="0.6"/>
+    </g>
+  </g>
+
+  <!-- Glowing Laser Cyber Chess King & Queen in Center Foreground -->
+  <g filter="url(#chessGlow)">
+    <!-- White / Cyan Grandmaster King (Center Left) -->
+    <g transform="translate(350, 190) scale(1.6)">
+      <!-- Base Plinth -->
+      <path d="M-22 36 L22 36 L18 28 L-18 28 Z" fill="url(#neonCyan)"/>
+      <path d="M-15 28 L15 28 L10 8 L-10 8 Z" fill="url(#neonCyan)"/>
+      <!-- Robe / Torso -->
+      <path d="M-10 8 C-14 0, -12 -12, 0 -18 C12 -12, 14 0, 10 8 Z" fill="#051933" stroke="url(#neonCyan)" stroke-width="2"/>
+      <!-- Cross Crown -->
+      <circle cx="0" cy="-24" r="5" fill="url(#neonCyan)"/>
+      <path d="M-5 -32 L5 -32 M0 -37 L0 -27" stroke="url(#neonCyan)" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <!-- Golden Grandmaster Knight (Center Right) -->
+    <g transform="translate(450, 205) scale(1.45)">
+      <!-- Base Plinth -->
+      <path d="M-20 34 L20 34 L16 26 L-16 26 Z" fill="url(#neonGold)"/>
+      <!-- Knight Horse Head -->
+      <path d="M-14 26 C-10 10, -22 6, -14 -12 C-8 -26, 4 -28, 12 -22 C22 -14, 18 -2, 14 10 L14 26 Z" fill="#201505" stroke="url(#neonGold)" stroke-width="2.5"/>
+      <!-- Eye & Mane -->
+      <circle cx="0" cy="-14" r="2.5" fill="#ffd700"/>
+      <path d="M6 -22 L14 -16 L8 -10" stroke="url(#neonGold)" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <!-- High-Tech Neon Pawn (Flank) -->
+    <g transform="translate(260, 260) scale(1.1)">
+      <path d="M-14 24 L14 24 L10 18 L-10 18 Z" fill="url(#neonPurple)"/>
+      <path d="M-8 18 C-10 8, -6 -2, 0 -6 C6 -2, 10 8, 8 18 Z" fill="#130826" stroke="url(#neonPurple)" stroke-width="2"/>
+      <circle cx="0" cy="-12" r="7" fill="url(#neonPurple)"/>
+    </g>
+  </g>
+
+  <!-- Title Overlay Graphic -->
+  <g transform="translate(400, 75)" text-anchor="middle">
+    <text font-family="'Rajdhani', sans-serif" font-weight="900" font-size="34" letter-spacing="4" fill="#ffffff" filter="url(#chessGlow)">CYBER CHESS</text>
+    <text y="26" font-family="'Outfit', sans-serif" font-weight="700" font-size="13" letter-spacing="2" fill="#00f2fe">MINIMAX GRANDMASTER AI • 1v1 LOCAL & OFFLINE</text>
+  </g>
+</svg>

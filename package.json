@@ -1,0 +1,43 @@
+{
+  "name": "sudarshan",
+  "version": "1.0.0",
+  "description": "Zero-data offline multiplayer gaming suite powered by WebSockets, LAN edge hosting, and deterministic physics.",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omkar891-png/gtproject.git"
+  },
+  "keywords": [
+    "multiplayer",
+    "offline-gaming",
+    "lan-party",
+    "zero-data",
+    "websocket",
+    "express",
+    "react-native",
+    "expo",
+    "html5-canvas",
+    "chess",
+    "carrom",
+    "ludo",
+    "mini-militia",
+    "uno"
+  ],
+  "author": "omkar891-png",
+  "license": "ISC",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "server": "node server.js",
+    "mobile": "npm start --prefix mobile-app",
+    "android": "npm run android --prefix mobile-app",
+    "ios": "npm run ios --prefix mobile-app",
+    "bundle:mobile": "node scripts/build-mobile-bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "qrcode": "^1.5.4",
+    "ws": "^8.22.0"
+  }
+}

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <radialGradient id="logoBg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0b162c"/>
+      <stop offset="50%" stop-color="#060b17"/>
+      <stop offset="100%" stop-color="#020409"/>
+    </radialGradient>
+    <linearGradient id="goldChakra" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff5c0"/>
+      <stop offset="35%" stop-color="#ffd700"/>
+      <stop offset="70%" stop-color="#ff9100"/>
+      <stop offset="100%" stop-color="#d47000"/>
+    </linearGradient>
+    <linearGradient id="cyanPlasma" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0ffff"/>
+      <stop offset="40%" stop-color="#00f2fe"/>
+      <stop offset="100%" stop-color="#0066cc"/>
+    </linearGradient>
+    <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="chakraGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="14" result="blur1"/>
+      <feGaussianBlur stdDeviation="6" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Shield Shape -->
+  <rect width="512" height="512" rx="110" fill="url(#logoBg)"/>
+  <rect width="504" height="504" x="4" y="4" rx="106" fill="none" stroke="url(#cyanPlasma)" stroke-width="4" stroke-opacity="0.4"/>
+
+  <!-- Outer Cyber Circuit Tracks -->
+  <g opacity="0.25" stroke="#00f2fe" stroke-width="2" fill="none">
+    <circle cx="256" cy="256" r="210" stroke-dasharray="12 18"/>
+    <circle cx="256" cy="256" r="170" stroke-dasharray="6 14"/>
+  </g>
+
+  <!-- Golden Sudarshan Chakra Blades -->
+  <g filter="url(#chakraGlow)" transform="translate(256, 256)">
+    <!-- 12 Radiating Blades -->
+    <g id="blades">
+      <path d="M0 -190 L18 -125 L0 -140 L-18 -125 Z" fill="url(#goldChakra)"/>
+      <path d="M0 -190 L18 -125 L0 -140 L-18 -125 Z" fill="url(#goldChakra)" transform="rotate(30)"/>
+      <path d="M0 -190 L18 -125 L0 -140 L-18 -125 Z" fill="url(#goldChakra)" transform="rotate(60)"/>
+      <path d="M0 -190 L18 -125 L0 -140 L-18 -125 Z" fill="url(#goldChakra)" transform="rotate(90)"/>
+      <path d="M0 -190 L18 -125 L0 -140 L-18 -125 Z" fill="url(#goldChakra)" transform="rotate(120)"/>
+      <path d="M0 -190 L18 -125 L0 -140 L-18 -125 Z" fill="url(#goldChakra)" transform="rotate(150)"/>
+      <path d="M0 -190 L18 -125 L0 -140 L-18 -125 Z" fill="url(#goldChakra)" transform="rotate(180)"/>
+      <path d="M0 -190 L18 -125 L0 -140 L-18 -125 Z" fill="url(#goldChakra)" transform="rotate(210)"/>
+      <path d="M0 -190 L18 -125 L0 -140 L-18 -125 Z" fill="url(#goldChakra)" transform="rotate(240)"/>
+      <path d="M0 -190 L18 -125 L0 -140 L-18 -125 Z" fill="url(#goldChakra)" transform="rotate(270)"/>
+      <path d="M0 -190 L18 -125 L0 -140 L-18 -125 Z" fill="url(#goldChakra)" transform="rotate(300)"/>
+      <path d="M0 -190 L18 -125 L0 -140 L-18 -125 Z" fill="url(#goldChakra)" transform="rotate(330)"/>
+    </g>
+
+    <!-- Outer Gold Ring -->
+    <circle r="130" fill="none" stroke="url(#goldChakra)" stroke-width="8"/>
+    <!-- Inner Cyan Plasma Core -->
+    <circle r="98" fill="url(#cyanPlasma)" filter="url(#neonGlow)"/>
+    <circle r="92" fill="#061224"/>
+    <circle r="80" fill="none" stroke="#00f2fe" stroke-width="3" stroke-dasharray="8 6"/>
+
+    <!-- Central Gaming Arena Symbol (Stylized S + Gamepad D-pad) -->
+    <path d="M-28 -40 L28 -40 L38 -15 L-10 10 L30 35 L-25 45 L-35 25 L10 0 L-28 -25 Z" fill="url(#goldChakra)" filter="url(#neonGlow)"/>
+    <circle cx="0" cy="0" r="14" fill="#00f2fe"/>
+  </g>
+</svg>

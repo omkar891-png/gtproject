@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <radialGradient id="feltBg" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#0a2e1a"/>
+      <stop offset="60%" stop-color="#05170d"/>
+      <stop offset="100%" stop-color="#020a05"/>
+    </radialGradient>
+    <linearGradient id="goldTrim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff5b8"/>
+      <stop offset="45%" stop-color="#ffd700"/>
+      <stop offset="85%" stop-color="#b8860b"/>
+      <stop offset="100%" stop-color="#805d00"/>
+    </linearGradient>
+    <linearGradient id="cardRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff3366"/>
+      <stop offset="100%" stop-color="#b3002d"/>
+    </linearGradient>
+    <linearGradient id="cardBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d2ff"/>
+      <stop offset="100%" stop-color="#0066cc"/>
+    </linearGradient>
+    <linearGradient id="cardGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00ff88"/>
+      <stop offset="100%" stop-color="#009944"/>
+    </linearGradient>
+    <linearGradient id="cardYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffea00"/>
+      <stop offset="100%" stop-color="#e69500"/>
+    </linearGradient>
+    <filter id="unoGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Luxury Felt Casino Background -->
+  <rect width="800" height="450" fill="url(#feltBg)"/>
+  <!-- Oval VIP Table Ring -->
+  <ellipse cx="400" cy="235" rx="350" ry="175" fill="none" stroke="url(#goldTrim)" stroke-width="4" stroke-opacity="0.5"/>
+  <ellipse cx="400" cy="235" rx="335" ry="165" fill="none" stroke="rgba(255, 215, 0, 0.15)" stroke-width="1.5" stroke-dasharray="10 8"/>
+
+  <!-- Casino Chips Stacks -->
+  <g transform="translate(140, 230)">
+    <ellipse cx="0" cy="30" rx="36" ry="14" fill="#ffd700" stroke="#fff" stroke-width="1.5"/>
+    <ellipse cx="0" cy="22" rx="36" ry="14" fill="#ff0055" stroke="#fff" stroke-width="1.5"/>
+    <ellipse cx="0" cy="14" rx="36" ry="14" fill="#00f2fe" stroke="#fff" stroke-width="1.5"/>
+    <ellipse cx="0" cy="6" rx="36" ry="14" fill="#ffd700" stroke="#b8860b" stroke-width="1.5"/>
+    <text x="0" y="10" font-family="'Rajdhani', sans-serif" font-weight="900" font-size="12" fill="#000" text-anchor="middle">VIP 500</text>
+  </g>
+
+  <!-- Fanned Royal Uno Cards in Center -->
+  <g transform="translate(400, 245)">
+    <!-- Card 1: Green Card (Far Left) -->
+    <g transform="rotate(-24) translate(-75, -90)" filter="url(#unoGlow)">
+      <rect width="90" height="135" rx="12" fill="url(#cardGreen)" stroke="#ffffff" stroke-width="2.5"/>
+      <ellipse cx="45" cy="67" rx="32" ry="46" fill="#ffffff" transform="rotate(25, 45, 67)"/>
+      <text x="45" y="78" font-family="'Rajdhani', sans-serif" font-weight="900" font-size="34" fill="#009944" text-anchor="middle">7</text>
+      <text x="14" y="24" font-family="'Rajdhani', sans-serif" font-weight="900" font-size="16" fill="#fff" text-anchor="middle">7</text>
+    </g>
+
+    <!-- Card 2: Blue Card (Left) -->
+    <g transform="rotate(-10) translate(-35, -95)" filter="url(#unoGlow)">
+      <rect width="90" height="135" rx="12" fill="url(#cardBlue)" stroke="#ffffff" stroke-width="2.5"/>
+      <ellipse cx="45" cy="67" rx="32" ry="46" fill="#ffffff" transform="rotate(25, 45, 67)"/>
+      <text x="45" y="76" font-family="'Rajdhani', sans-serif" font-weight="900" font-size="28" fill="#0066cc" text-anchor="middle">⟲</text>
+      <text x="14" y="24" font-family="'Rajdhani', sans-serif" font-weight="900" font-size="16" fill="#fff" text-anchor="middle">⟲</text>
+    </g>
+
+    <!-- Card 3: Yellow Card (Right) -->
+    <g transform="rotate(10) translate(15, -95)" filter="url(#unoGlow)">
+      <rect width="90" height="135" rx="12" fill="url(#cardYellow)" stroke="#ffffff" stroke-width="2.5"/>
+      <ellipse cx="45" cy="67" rx="32" ry="46" fill="#ffffff" transform="rotate(25, 45, 67)"/>
+      <text x="45" y="78" font-family="'Rajdhani', sans-serif" font-weight="900" font-size="30" fill="#e69500" text-anchor="middle">+2</text>
+      <text x="16" y="24" font-family="'Rajdhani', sans-serif" font-weight="900" font-size="15" fill="#fff" text-anchor="middle">+2</text>
+    </g>
+
+    <!-- Card 4: Red Card / Wild King (Far Right) -->
+    <g transform="rotate(24) translate(55, -90)" filter="url(#unoGlow)">
+      <rect width="90" height="135" rx="12" fill="url(#cardRed)" stroke="#ffffff" stroke-width="2.5"/>
+      <ellipse cx="45" cy="67" rx="32" ry="46" fill="#ffffff" transform="rotate(25, 45, 67)"/>
+      <text x="45" y="78" font-family="'Rajdhani', sans-serif" font-weight="900" font-size="34" fill="#b3002d" text-anchor="middle">9</text>
+      <text x="14" y="24" font-family="'Rajdhani', sans-serif" font-weight="900" font-size="16" fill="#fff" text-anchor="middle">9</text>
+    </g>
+  </g>
+
+  <!-- Center Gold UNO Royal Seal Badge -->
+  <g transform="translate(400, 275)" filter="url(#unoGlow)">
+    <circle r="42" fill="#0b1710" stroke="url(#goldTrim)" stroke-width="5"/>
+    <circle r="34" fill="url(#cardRed)"/>
+    <text y="7" font-family="'Rajdhani', sans-serif" font-weight="900" font-size="24" fill="#ffffff" text-anchor="middle" letter-spacing="1">UNO</text>
+    <path d="M-18 -18 L18 -18 L0 -30 Z" fill="url(#goldTrim)"/>
+  </g>
+
+  <!-- Title Header -->
+  <g transform="translate(400, 65)" text-anchor="middle">
+    <text font-family="'Rajdhani', sans-serif" font-weight="900" font-size="34" letter-spacing="4" fill="#ffffff" filter="url(#unoGlow)">TEEN PATTI UNO</text>
+    <text y="24" font-family="'Outfit', sans-serif" font-weight="700" font-size="13" letter-spacing="2" fill="#ffd700">VIP CASINO FELT TABLE • 2-6 PLAYERS MULTIPLAYER</text>
+  </g>
+</svg>

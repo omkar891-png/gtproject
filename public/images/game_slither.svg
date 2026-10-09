@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#04060d"/>
+      <stop offset="100%" stop-color="#0a1020"/>
+    </linearGradient>
+    <linearGradient id="neonGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00ff88"/>
+      <stop offset="100%" stop-color="#00f2fe"/>
+    </linearGradient>
+    <linearGradient id="neonPink" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff0055"/>
+      <stop offset="100%" stop-color="#ff9100"/>
+    </linearGradient>
+    <filter id="glowF" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="9" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bgDark)"/>
+
+  <!-- Hexagonal Honeycomb Arena Floor Grid -->
+  <g opacity="0.12" stroke="#00f2fe" stroke-width="1.2" fill="none">
+    <polygon points="100,60 140,80 140,130 100,150 60,130 60,80"/>
+    <polygon points="180,60 220,80 220,130 180,150 140,130 140,80"/>
+    <polygon points="260,60 300,80 300,130 260,150 220,130 220,80"/>
+    <polygon points="140,130 180,150 180,200 140,220 100,200 100,150"/>
+    <polygon points="220,130 260,150 260,200 220,220 180,200 180,150"/>
+    <polygon points="300,130 340,150 340,200 300,220 260,200 260,150"/>
+    <polygon points="400,200 440,220 440,270 400,290 360,270 360,220"/>
+    <polygon points="480,200 520,220 520,270 480,290 440,270 440,220"/>
+    <polygon points="560,200 600,220 600,270 560,290 520,270 520,220"/>
+  </g>
+
+  <!-- Glowing Energy Orbs scattered around -->
+  <circle cx="150" cy="280" r="7" fill="#ffd600" filter="url(#glowF)"/>
+  <circle cx="210" cy="330" r="9" fill="#00f2fe" filter="url(#glowF)"/>
+  <circle cx="340" cy="120" r="6" fill="#ff0055" filter="url(#glowF)"/>
+  <circle cx="490" cy="180" r="8" fill="#00ff88" filter="url(#glowF)"/>
+  <circle cx="680" cy="310" r="10" fill="#ffd600" filter="url(#glowF)"/>
+  <circle cx="590" cy="110" r="8" fill="#b026ff" filter="url(#glowF)"/>
+
+  <!-- Cyan/Green Alpha Snake Gliding across the screen -->
+  <g filter="url(#glowF)">
+    <!-- Body Segments -->
+    <path d="M 120 380 Q 250 340 380 260 T 580 180 Q 640 140 700 210" 
+          fill="none" stroke="url(#neonGreen)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Inner Core Highlight -->
+    <path d="M 120 380 Q 250 340 380 260 T 580 180 Q 640 140 700 210" 
+          fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.8"/>
+
+    <!-- Snake Head -->
+    <circle cx="700" cy="210" r="19" fill="#00ff88"/>
+    <!-- Snake Eyes -->
+    <circle cx="706" cy="203" r="5" fill="#06121e"/>
+    <circle cx="708" cy="202" r="2" fill="#ffffff"/>
+    <circle cx="706" cy="217" r="5" fill="#06121e"/>
+    <circle cx="708" cy="216" r="2" fill="#ffffff"/>
+  </g>
+
+  <!-- Rival Crimson Snake (Encircling / Cutting off) -->
+  <g filter="url(#glowF)">
+    <path d="M 680 410 Q 560 380 480 310 Q 400 230 450 130" 
+          fill="none" stroke="url(#neonPink)" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 680 410 Q 560 380 480 310 Q 400 230 450 130" 
+          fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.75"/>
+    <circle cx="450" cy="130" r="16" fill="#ff0055"/>
+    <circle cx="446" cy="124" r="4" fill="#ffffff"/>
+    <circle cx="456" cy="124" r="4" fill="#ffffff"/>
+  </g>
+
+  <!-- Title Badge -->
+  <g transform="translate(40, 50)">
+    <rect width="200" height="34" rx="17" fill="#00ff88" fill-opacity="0.15" stroke="#00ff88" stroke-width="1.5"/>
+    <text x="100" y="22" font-family="'Outfit', sans-serif" font-weight="700" font-size="13" fill="#00ff88" text-anchor="middle" letter-spacing="2">2-8 REAL-TIME • ARENA</text>
+    <text x="0" y="75" font-family="'Rajdhani', sans-serif" font-weight="700" font-size="34" fill="#ffffff">SLITHER <tspan fill="#00ff88">BATTLE ROYALE</tspan></text>
+  </g>
+</svg>

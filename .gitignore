@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+*/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment and Secrets
+.env
+.env*.local
+*.pem
+*.key
+*.jks
+*.p8
+*.p12
+*.mobileprovision
+
+# Expo / Mobile App
+.expo/
+*/.expo/
+dist/
+web-build/
+expo-env.d.ts
+.metro-health-check*
+
+# Android Native Build Artifacts
+mobile-app/android/.gradle/
+mobile-app/android/build/
+mobile-app/android/app/build/
+mobile-app/android/local.properties
+mobile-app/android/.kotlin/
+mobile-app/android/*.iml
+mobile-app/android/.idea/
+.cxx/
+*.hprof
+
+# Editor and Tooling Directories
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.claude/
+*/.claude/
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# Logs & Diagnostics
+*.log
+logs/
+*.tsbuildinfo
